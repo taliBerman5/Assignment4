@@ -1,0 +1,8 @@
+Tel_Aviv,40
+Jerusalem,100
+Ramat_Gan,40
+Moderna,20,2021-01-16
+Moderna,100,2021-01-17
+Eilat,40
+Jerusalem,100
+Beer_Sheva,50
