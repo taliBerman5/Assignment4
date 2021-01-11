@@ -1,6 +1,6 @@
 import sqlite3
 import DTO
-from DAO import Dao
+from DAO import Dao, orm
 import atexit
 
 
@@ -17,34 +17,36 @@ class _Repository:
         self._conn.close()
 
     def createTables(self):
-        self._conn.executesscript("""
+        self._conn.executescript("""
         CREATE TABLE vaccines (
-            id          INTEGER     PRIMARY KEY
-            date        DATE        NOT NULL
-            supplier    INTEGER     REFERENCES Supplier(id)
+            id          INTEGER     PRIMARY KEY,
+            date        DATE        NOT NULL,
+            supplier    INTEGER     REFERENCES Supplier(id),
             quantity    INTEGER     NOT NULL
             ); 
             
         CREATE TABLE suppliers (
-            id          INTEGER     PRIMARY KEY
-            name        STRING      NOT NULL
+            id          INTEGER     PRIMARY KEY,
+            name        STRING      NOT NULL,
+            logistic    INTEGER     REFERENCES Logistic(id)
+            );
+            
+        CREATE TABLE clinics (
+            id          INTEGER     PRIMARY KEY,
+            location    STRING      NOT NULL,
+            demand      INTEGER     NOT NULL,
             logistic    INTEGER     REFERENCES Logistic(id)
             );
             
         CREATE TABLE logistics (
-            id          INTEGER     PRIMARY KEY
-            location    STRING      NOT NULL
-            demand      INTEGER     NOT NULL
-            logistic    INTEGER     REFERENCES Logistic(id)
-            );
-            
-        CREATE TABLE logistics (
-            id              INTEGER     PRIMARY KEY
-            name            STRING      NOT NULL
-            count_sent      INTEGER     NOT NULL
+            id              INTEGER     PRIMARY KEY,
+            name            STRING      NOT NULL,
+            count_sent      INTEGER     NOT NULL,
             count_received  INTEGER     NOT NULL
             );
         """)
+
+
     def getSummary(self):
         c = self._conn.cursor()
         inv = c.execute("""
@@ -62,8 +64,18 @@ class _Repository:
                 FROM logistics
         """).fetchone()
 
-        return inv[0] + ',' + demand[0] + ',' + rec_sent[0] + ',' + rec_sent[1]
+        return str(inv[0]) + ',' + str(demand[0]) + ',' + str(rec_sent[0]) + ',' + str(rec_sent[1])
 
+    def firstVaccine(self):
+        c = self._conn.cursor()
+        c.execute("""
+                SELECT *
+                FROM vaccines
+                order by date
+                limit 1
+        """)
+
+        return orm(c, DTO.Vaccine)
 
 
 repo = _Repository()
