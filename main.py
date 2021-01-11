@@ -71,7 +71,6 @@ def receive(order):
 
 
 def updateOutput(file):
-    print("summary = "+repo.getSummary())
     file.write(repo.getSummary() + '\n')
 
 
