@@ -10,9 +10,10 @@ def parseConfig(path):
     file = open(path, "r")
     lines = file.readlines()
     quantity = lines.pop(0).replace('\n', '').split(",")
-    dto = [DTO.Vaccine, DTO.Supplier, DTO.Clinic, DTO.Logistic]
-    dao = [repo.vaccines, repo.suppliers, repo.clinics, repo.logistics]
-
+    quantity.reverse()
+    lines.reverse()
+    dto = [DTO.Logistic, DTO.Clinic, DTO.Supplier, DTO.Vaccine]
+    dao = [repo.logistics, repo.clinics, repo.suppliers, repo.vaccines]
     for i in range(4):
         for j in range(int(quantity[i])):
             params = lines.pop(0).replace('\n', '').split(',')

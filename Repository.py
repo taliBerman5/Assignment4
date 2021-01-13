@@ -21,21 +21,27 @@ class _Repository:
         CREATE TABLE vaccines (
             id          INTEGER     PRIMARY KEY,
             date        DATE        NOT NULL,
-            supplier    INTEGER     REFERENCES Suppliers(id),
-            quantity    INTEGER     NOT NULL
+            supplier    INTEGER     NOT NULL,
+            quantity    INTEGER     NOT NULL,
+            
+            FOREIGN KEY (supplier) REFERENCES suppliers(id)
             ); 
             
         CREATE TABLE suppliers (
             id          INTEGER     PRIMARY KEY,
             name        STRING      NOT NULL,
-            logistic    INTEGER     REFERENCES Logistics(id)
+            logistic    INTEGER     NOT NULL,
+            
+            FOREIGN KEY (logistic) REFERENCES logistics(id)
             );
             
         CREATE TABLE clinics (
             id          INTEGER     PRIMARY KEY,
             location    STRING      NOT NULL,
             demand      INTEGER     NOT NULL,
-            logistic    INTEGER     REFERENCES Logistics(id)
+            logistic    INTEGER     NOT NULL,
+            
+            FOREIGN KEY (logistic) REFERENCES logistics(id)
             );
             
         CREATE TABLE logistics (
