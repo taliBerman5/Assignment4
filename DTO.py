@@ -1,12 +1,14 @@
 from datetime import datetime
-from lib2to3.pytree import convert
 
 
 class Vaccine:
     def __init__(self, id, date, supplier, quantity):
         self.id = int(id)
-        self.date = datetime.strptime(date, '%Y-%m-%d')
-        self.date = datetime.date(self.date)
+        date = str(date).replace('-', '.')
+        date = str(date).replace('−', '.')
+        split = str(date).split('.')
+        date = datetime(int(split[0]), int(split[1]), int(split[2]))
+        self.date = datetime.date(date)
         self.supplier = int(supplier)
         self.quantity = int(quantity)
 
@@ -32,3 +34,21 @@ class Logistic:
         self.name = name
         self.count_sent = int(count_sent)
         self.count_received = int(count_received)
+
+
+def swap_seperators(lst):
+    '''
+    lst is either a list of list, or a list of tuples.
+    will return a a list of list/tuple where all − occurrences been replaced with - .
+    This also replace the lst inplace.
+    '''
+    for j,l in enumerate(lst):
+        nl = list(l)
+        for i,v in enumerate(nl):
+            if isinstance(v,str):
+                nl[i] = v.replace('−','-')
+        lst[j] = nl if isinstance(l,list) else tuple(nl)
+    return lst
+
+
+#'2021-01-01'

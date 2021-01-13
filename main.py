@@ -26,7 +26,9 @@ def parseOrders(path):
     lines = file.readlines()
     orders = []
     for line in lines:
-        orders.append(line.split(','))
+        line.replace('\n', '')
+        order = line.split(',')
+        orders.append(order)
     file.close()
     return orders
 
@@ -45,7 +47,10 @@ def send(order):
     # update clinic demand
     clinic = repo.clinics.find(location=city)[0]
     repo.clinics.update({'demand': (clinic.demand - amount)}, {'location': city})
-    # update count_sent & vaccine
+    # update count_sent
+    logi = repo.logistics.find(id=clinic.logistic)[0]
+    repo.logistics.update({'count_sent': (logi.count_sent + amount)}, {'id': logi.id})
+    # update vaccine
     while amount > 0:
         vaccine = repo.firstVaccine()[0]
         amount_v = vaccine.quantity
@@ -55,8 +60,7 @@ def send(order):
         else:
             repo.vaccines.update({'quantity': amount_v - amount}, {'id': vaccine.id})
             curr = amount
-        logi = repo.logistics.find(id = repo.suppliers.find(id=vaccine.supplier)[0].logistic)[0]
-        repo.logistics.update({'count_sent': (logi.count_sent + curr)}, {'id': logi.id})
+
         amount = amount - amount_v
 
 
