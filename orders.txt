@@ -1,8 +1,4 @@
-Tel_Aviv,40
-Jerusalem,100
-Ramat_Gan,40
-Moderna,20,2021−01−6
-Moderna,100,2021−01−7
-Eilat,40
-Jerusalem,100
-Beer_Sheva,50
+SUPP_80,50,2021-01-03
+SUPP_80,50,2021-01-04
+SUPP_80,50,2021-01-05
+CLINIC_2b6a7f,37

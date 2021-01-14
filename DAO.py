@@ -20,7 +20,7 @@ class Dao:
         self._conn = conn
         self._dto_type = dto_type
         self._table_name = dto_type.__name__.lower() + 's'
-        self.last_id = 1
+        self.last_id = 0
 
     def insert(self, dto_instance):
         ins_dict = vars(dto_instance)

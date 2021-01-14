@@ -35,20 +35,3 @@ class Logistic:
         self.count_sent = int(count_sent)
         self.count_received = int(count_received)
 
-
-def swap_seperators(lst):
-    '''
-    lst is either a list of list, or a list of tuples.
-    will return a a list of list/tuple where all − occurrences been replaced with - .
-    This also replace the lst inplace.
-    '''
-    for j,l in enumerate(lst):
-        nl = list(l)
-        for i,v in enumerate(nl):
-            if isinstance(v,str):
-                nl[i] = v.replace('−','-')
-        lst[j] = nl if isinstance(l,list) else tuple(nl)
-    return lst
-
-
-#'2021-01-01'
