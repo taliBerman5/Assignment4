@@ -51,17 +51,18 @@ def send(order):
     logi = repo.logistics.find(id=clinic.logistic)[0]
     repo.logistics.update({'count_sent': (logi.count_sent + amount)}, {'id': logi.id})
     # update vaccine
+    vaccines = repo.orderedVaccines()
+    index = 0
     while amount > 0:
-        vaccine = repo.firstVaccine()[0]
+        vaccine = vaccines[index]
         amount_v = vaccine.quantity
         if amount >= amount_v:
             repo.vaccines.delete(id=vaccine.id)
-            curr = amount_v
         else:
             repo.vaccines.update({'quantity': amount_v - amount}, {'id': vaccine.id})
-            curr = amount
 
         amount = amount - amount_v
+        index +=1
 
 
 def receive(order):

@@ -72,13 +72,12 @@ class _Repository:
 
         return str(inv[0]) + ',' + str(demand[0]) + ',' + str(rec_sent[0]) + ',' + str(rec_sent[1])
 
-    def firstVaccine(self):
+    def orderedVaccines(self):
         c = self._conn.cursor()
         c.execute("""
                 SELECT *
                 FROM vaccines
                 order by date
-                limit 1
         """)
 
         return orm(c, DTO.Vaccine)
